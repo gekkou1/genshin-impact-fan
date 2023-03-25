@@ -1,9 +1,9 @@
+
 import { useEffect, useState } from "react";
-import api from "./axiosConfigRoute";
-import { CHARACATERS } from "./axiosConfigRoute";
+import api, { CHARACATERS } from "../api/axiosConfigRoute";
 
 //-------------Get one Character
-export const useOneCharacterCall = (name) => {
+export const useOneCharCall = (name) => {
   const [character, setCharacter] = useState(name);
   const [icon, setIcon] = useState(name);
 
@@ -52,28 +52,5 @@ export const useOneCharacterCall = (name) => {
     callIconCharacter();
   }, []);
 
-  return [character,icon];
-};
-
-//------------- Get all Characters
-export const useAllCharacterCall = () => {
-  const [allCharacters, setAllCharacters] = useState([]);
-
-  const callCharacters = async () => {
-    try {
-      const response = await api.get(CHARACATERS).then((response) => {
-        //console.log(response.data);
-        setAllCharacters(response?.data);
-        //console.log(characters);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    callCharacters();
-  }, []);
-
-  return allCharacters;
+  return [character, icon];
 };
