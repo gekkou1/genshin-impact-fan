@@ -1,43 +1,62 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Head } from "../layout/Head";
 import { Cards } from "../components/Cards";
 import { useOneCharCall, useAllCharCall } from "../hooks";
+import Character from "../model/Character";
+
+
+const Card: FC<Character> = ({ name, title, nation }) => {
+  return (
+    <div style={{ padding: "10px 20px", border: "1px solid gray", borderRadius: "10px" }}>
+      {/*
+      <img src={icon} alt="pj" />
+      */}
+      <p>
+        <b>Name: </b>
+        {name}
+      </p>
+      <p>
+        <b>Title: </b>
+        {title}
+      </p>
+      <p>
+        <b>Nation: </b>
+        {nation}
+      </p>
+    </div>
+  )
+};
 
 export const HomePage = () => {
   // Call Character info + icon
-  const [character, icon] = useOneCharCall("qiqi");
+  const charNames = useAllCharCall();
+  const character = useOneCharCall(charNames);
 
-  const prueba = useAllCharCall();
-  console.log(prueba);
+  //console.log(charNames);
+  console.log(character);
 
   const [characterNames, setCharacterNames] = useState();
+
+  const characterCardView = character.map( character => {
+    return <Card
+      {...character}
+    />;
+  });
 
   return (
     <>
       <Head />
       <h1>Genshin api fan</h1>
+      {characterCardView}
       <h3>Characters</h3>
-      <img src={icon} alt="pj" />
-      <p>
-        <b>Name: </b>
-        {character.name}
-      </p>
-      <p>
-        <b>Title: </b>
-        {character.title}
-      </p>
-      <p>
-        <b>Nation: </b>
-        {character.nation}
-      </p>
       {
         <ul>
-          {prueba.slice(0).map((item) => (
+          {charNames.slice(0).map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
       }
-      {/*JSON.stringify(prueba)*/}
+      {/*JSON.stringify(charNames)*/}
     </>
   );
 };

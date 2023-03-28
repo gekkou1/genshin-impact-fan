@@ -3,22 +3,21 @@ import api, { CHARACATERS } from "../api/axiosConfigRoute";
 
 //------------- Get all Characters
 export const useAllCharCall = () => {
-  const [allCharacters, setAllCharacters] = useState([]);
+  const [allCharacters, setAllCharacters] = useState<string[]>([]);
 
   const callCharacters = async () => {
     try {
-      const response = await api.get(CHARACATERS).then((response) => {
-        //console.log(response.data);
-        setAllCharacters(response?.data);
-        //console.log(characters);
-      });
+      const response = await api.get(CHARACATERS)
+      setAllCharacters(response.data)
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    callCharacters();
+    void (async() => {
+        await callCharacters();
+    })();
   }, []);
 
   return allCharacters;
