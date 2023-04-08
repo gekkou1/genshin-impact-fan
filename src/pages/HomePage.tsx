@@ -1,16 +1,14 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Head } from "../layout/Head";
-import { Cards } from "../components/Cards";
-import { useOneCharCall, useAllCharCall } from "../hooks";
-import Character from "../model/Character";
+import { listAllCharacters, showAllCharactersInfo, useOneCharCall } from "../hooks";
+//import Character from "../model/Character";
 
 
+/*
 const Card: FC<Character> = ({ name, title, nation }) => {
   return (
     <div style={{ padding: "10px 20px", border: "1px solid gray", borderRadius: "10px" }}>
-      {/*
       <img src={icon} alt="pj" />
-      */}
       <p>
         <b>Name: </b>
         {name}
@@ -27,27 +25,73 @@ const Card: FC<Character> = ({ name, title, nation }) => {
   )
 };
 
+const Avatar = () =>{
+  return <img src={} alt="avatar"/>
+}
+*/
+
+const Card = ({ name, title }) => {
+  return (
+    <div style={{ padding: "10px 20px", border: "1px solid gray", borderRadius: "10px", width: "200px" }}>
+      {/*
+      <img src={icon} alt="pj" />
+      */}
+      <p>
+        <b>Name: </b>
+        {name}
+      </p>
+      <p>
+        <b>Title: </b>
+        {title}
+      </p>
+    </div>
+  )
+};
+
+
 export const HomePage = () => {
   // Call Character info + icon
-  const charNames = useAllCharCall();
-  const character = useOneCharCall(charNames);
+  const charNames = listAllCharacters();
+  const showCharInfo = showAllCharactersInfo()
 
-  //console.log(charNames);
-  console.log(character);
+  //console.log(showCharInfo);
 
-  const [characterNames, setCharacterNames] = useState();
+  const [characterNames, setCharacterNames] = useState([]);
+  const [hasCharNames, setHasCharNames] = useState(false)
 
-  const characterCardView = character.map( character => {
-    return <Card
-      {...character}
-    />;
-  });
+  const arraChar = []
 
+  useEffect(() => {
+    arraChar.push(charNames)
+    setCharacterNames(...[arraChar[0]])
+    console.log(arraChar[0].slice(0))
+  }, [])
+
+  const testChars = useOneCharCall(arraChar)
+  //console.log(characterNames)
   return (
     <>
       <Head />
       <h1>Genshin api fan</h1>
-      {characterCardView}
+      {/*characterCardView*/}
+      <h3>Cards</h3>
+      {
+        (testChars[0].length < 0)
+          ?
+          <p>Esta Vacio</p>
+          :
+          testChars[0].map((icon) => (
+            <img src={icon} alt="avatar" />
+          ))}
+      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }} >
+        {showCharInfo.map((char) => (
+          <>
+            <Card {...char} />
+          </>
+        ))
+        }
+
+      </div>
       <h3>Characters</h3>
       {
         <ul>

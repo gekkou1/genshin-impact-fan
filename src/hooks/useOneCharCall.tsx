@@ -4,58 +4,52 @@ import api, { CHARACATERS } from "../api/axiosConfigRoute";
 import Character from "../model/Character";
 
 //-------------Get one Character
-export const useOneCharCall = (characterNames: string[]): Character[] => {
-    const [characters, setCharacters] = useState<Character[]>([]);
-    //const [icon, setIcon] = useState(name);
+export const useOneCharCall = (characterNames:any) => {
+  const [characters, setCharacters] = useState([]);
+  const [icon, setIcon] = useState([]);
 
-    //    console.log(character)
+  useEffect(() => {
     // Get Info Character
     const callCharacter = async () => {
-        const newCharacters: Character[] = [];
-        for (let index = 0; index < characterNames.length; index++) {
-            //const element = character[index];
-            const response = await api
-                .get(`${CHARACATERS}/${characterNames[index]}`)
-            const characterData: Character = response.data
-            newCharacters.push(characterData);
-        }
-        setCharacters(newCharacters);
-    };
-
-    // Get Icon Character
-    /*
-    const callIconCharacter = async () => {
-      try {
+      const newCharacters: Character[] = [];
+      for (let index = 0; index < characterNames.length; index++) {
+        //const element = character[index];
         const response = await api
-          .get(`${CHARACATERS}/${character}/icon`, {
+          .get(`${CHARACATERS}/${characterNames[index]}`)
+        const characterData: Character = response.data
+        newCharacters.push(characterData);
+      }
+      setCharacters(newCharacters);
+    };
+    // Get Icon Character
+    const callIconCharacter = async () => {
+      const newIconCharacters = [];
+      for (let index = 0; index < characterNames.length; index++) {
+        const response = await api
+          .get(`${CHARACATERS}/${characterNames[index]}/icon-big`, {
             responseType: "arraybuffer",
           })
-          .then((response) => {
-            const base64 = btoa(
-              new Uint8Array(response?.data).reduce(
-                (data, byte) => data + String.fromCharCode(byte),
-                ""
-              )
-            );
-            const imageSrc = "data:image/png;base64," + base64;
-            // Aquí puedes hacer lo que quieras con la imagen, como agregarla a un estado o mostrarla en un elemento de imagen
-  
-            setIcon(imageSrc)
-            // console.log(response.data);
-            // setIcon(response?.data);
-          });
-      } catch (err) {
-        console.log(err);
-      }
-    };
-  */
-    useEffect(() => {
-        (async () => {
-            await callCharacter();
-        })();
-        //  callIconCharacter();
-    }, []);
+        //const chacracterIconData = response.data
+        const base64 = btoa(
+          new Uint8Array(response?.data).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ""
+          )
+        );
+        const imageSrc = "data:image/png;base64," + base64;
+        // Aquí puedes hacer lo que quieras con la imagen, como agregarla a un estado o mostrarla en un elemento de imagen
+        newIconCharacters.push(imageSrc)
 
-    //console.log(character)
-    return characters;
+        setIcon(newIconCharacters)
+        //console.log(imageSrc);
+        // setIcon(response?.data);
+      };
+      //  callIconCharacter();
+    }
+
+    callCharacter();
+    callIconCharacter();
+  }, []);
+
+  return [icon, characters];
 };
