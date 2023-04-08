@@ -15,9 +15,7 @@ export const listAllCharacters = () => {
   };
 
   useEffect(() => {
-    void (async() => {
-        await callCharacters();
-    })();
+    callCharacters();
   }, []);
 
   return allCharacters;
