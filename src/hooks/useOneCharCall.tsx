@@ -1,10 +1,10 @@
 
 import { useEffect, useState } from "react";
-import api, { CHARACATERS } from "../api/axiosConfigRoute";
+import api, { CHARACTERS } from "../api/axiosConfigRoute";
 import Character from "../model/Character";
 
 //-------------Get one Character
-export const useOneCharCall = (characterNames:any) => {
+export const useOneCharCall = (characterNames: any) => {
   const [characters, setCharacters] = useState([]);
   const [icon, setIcon] = useState([]);
 
@@ -15,7 +15,7 @@ export const useOneCharCall = (characterNames:any) => {
       for (let index = 0; index < characterNames.length; index++) {
         //const element = character[index];
         const response = await api
-          .get(`${CHARACATERS}/${characterNames[index]}`)
+          .get(`${CHARACTERS}/${characterNames[index]}`)
         const characterData: Character = response.data
         newCharacters.push(characterData);
       }
@@ -26,7 +26,7 @@ export const useOneCharCall = (characterNames:any) => {
       const newIconCharacters = [];
       for (let index = 0; index < characterNames.length; index++) {
         const response = await api
-          .get(`${CHARACATERS}/${characterNames[index]}/icon-big`, {
+          .get(`${CHARACTERS}/${characterNames[index]}/icon-big`, {
             responseType: "arraybuffer",
           })
         //const chacracterIconData = response.data

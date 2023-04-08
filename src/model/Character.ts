@@ -1,7 +1,7 @@
 interface Character {
     name: string;
     title: string;
-    nation: string;
+    iconUrl: string;
 };
 
 export default Character;

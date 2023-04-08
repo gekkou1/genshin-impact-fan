@@ -8,7 +8,7 @@ export default axios.create({
 
 export const ARTIFACTS = "artifacts";
 export const BOSS = "boss";
-export const CHARACATERS = "characters";
+export const CHARACTERS = "characters";
 export const CONSUMABLES = "consumables";
 export const DOMAINS = "domains";
 export const ELEMENTS = "elements";

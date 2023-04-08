@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api, { CHARACATERS } from "../api/axiosConfigRoute";
+import api, { CHARACTERS } from "../api/axiosConfigRoute";
 
 //------------- Get all Characters
 export const showAllCharactersInfo = () => {
@@ -7,7 +7,7 @@ export const showAllCharactersInfo = () => {
 
   const callCharacters = async () => {
     try {
-      const response = await api.get(`${CHARACATERS}/all`)
+      const response = await api.get(`${CHARACTERS}/all`)
       setAllCharacters(response.data)
     } catch (err) {
       console.log(err);
@@ -15,8 +15,8 @@ export const showAllCharactersInfo = () => {
   };
 
   useEffect(() => {
-    void (async() => {
-        await callCharacters();
+    void (async () => {
+      await callCharacters();
     })();
   }, []);
 
